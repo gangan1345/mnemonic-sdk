@@ -1,0 +1,72 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.github.ben-manes:gradle-versions-plugin:0.20.0'
+    }
+}
+
+apply plugin: 'java'
+apply from: 'bintray.gradle'
+
+// Generate a dependency version update report for release
+// ./gradlew dependencyUpdates -Drevision=release
+// https://github.com/ben-manes/gradle-versions-plugin
+apply plugin: 'com.github.ben-manes.versions'
+
+
+group 'com.lgann.develop'
+version '1.0.0'
+
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+// To upload a new version
+// ./gradlew clean build bintrayUpload -Puser=user -Pkey=APIKEY
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    publications = ['MyPublication']
+    pkg {
+        repo = 'maven'
+        name = project.name
+        licenses = ['Apache-2.0']
+        vcsUrl = "https://github.com/gangan1345/mnemonic-sdk.git"
+        websiteUrl = 'https://github.com/gangan1345/mnemonic-sdk'
+        version {
+            name = project.version
+        }
+    }
+}
+
+
+compileJava {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://dl.bintray.com/lhalcyon/maven/" }
+    maven { url "https://dl.bintray.com/novacrypto/BIP/" }
+    maven { url "https://dl.bintray.com/novacrypto/General/" }
+    maven { url "https://dl.bintray.com/novacrypto/Hashing/" }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.12'
+    compile 'org.slf4j:slf4j-nop:1.7.25'
+
+    //    compile 'io.github.novacrypto:BIP32:0.0.9'
+    compile 'com.lhalcyon:bip32:1.0.0'
+    compile 'io.github.novacrypto:BIP44:0.0.3'
+
+    compile 'com.madgag.spongycastle:core:1.58.0.0@jar'
+}
+
+
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+javadoc.options.encoding = 'UTF-8'

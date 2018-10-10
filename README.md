@@ -1,7 +1,7 @@
 # mnemonic-sdk
 Mnemonic bip39 bip32 bip44 
 
-#Install
+# Install
 ``` 
 Gradle：
 
@@ -20,15 +20,15 @@ Maven：
   <type>pom</type>
 </dependency>
 ```
-#Usage
-##生成助记词
+# Usage
+## 生成助记词
 ``` Java
 // 默认生成12个单词的助记词
 String mnemonic = MnemonicUtils.generateMnemonic();
 ```
 助记词：exchange throw faculty fiction require father prefer mask organ crumble journey cricket<br>
 
-##生成种子
+## 生成种子
 ``` Java
 // 根据助记词生成种子
 byte[] seed = MnemonicUtils.generateSeed(mnemonic, "");
@@ -36,7 +36,7 @@ byte[] seed = MnemonicUtils.generateSeed(mnemonic, "");
 
 种子： 0x7eaedb7137ef3c3b9da8c2bd976d639455133ef76be73fda9c8342c922c98ca910fe195a5db88c43fa526b3504569f6aa7476d738a6e11f8feb48aa03ae0eac0<br>
 
-##生成一个bip32 私钥
+## 生成一个bip32 私钥
 ``` Java
 byte[] privateKeyBytes = KeyPairUtils.generatePrivateKey(seed, KeyPairUtils.CoinTypes.EOS);
 System.out.println("privateKeyBytes:"+ Numeric.toHexString(privateKeyBytes));
@@ -56,7 +56,8 @@ AddressIndex addressIndex = BIP44
         .account(0)
         .external()
         .address(0);
-// 2. calculate seed from mnemonics , then get master/root key ; Note that the bip39 passphrase we set "" for common
+// 2. calculate seed from mnemonics , then get master/root key ; 
+// Note that the bip39 passphrase we set "" for common
 ExtendedPrivateKey rootKey = ExtendedPrivateKey.fromSeed(seed, network);
 // 3. get child private key deriving from master/root key
 ExtendedPrivateKey childPrivateKey = rootKey.derive(addressIndex, AddressIndex.DERIVATION);
@@ -64,7 +65,7 @@ ExtendedPrivateKey childPrivateKey = rootKey.derive(addressIndex, AddressIndex.D
 byte[] privateKeyBytes = childPrivateKey.getKey();
 ```
 
-##说明
+## 说明
 `BIP32`：定义 Hierarchical Deterministic wallet (简称 “HD Wallet”)，是一个系统可以从单一个 seed 产生一树状结构储存多组 keypairs（私钥和公钥）。好处是可以方便的备份、转移到其他相容装置（因为都只需要 seed），以及分层的权限控制等。<br>
 `BIP39`：将 seed 用方便记忆和书写的单字表示。一般由 12 个单字组成，称为 mnemonic code(phrase)，中文称为助记词或助记码。<br>
 `BIP44`：基于 BIP32 的系统，赋予树状结构中的各层特殊的意义。让同一个 seed 可以支援多币种、多帐户等。各层定义如下：<br>

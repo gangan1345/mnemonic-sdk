@@ -25,6 +25,7 @@ Maven：
 ``` Java
 // 默认生成12个单词的助记词
 String mnemonic = MnemonicUtils.generateMnemonic();
+System.out.println("mnemonic = " + mnemonic);
 ```
 助记词：exchange throw faculty fiction require father prefer mask organ crumble journey cricket<br>
 
@@ -32,6 +33,7 @@ String mnemonic = MnemonicUtils.generateMnemonic();
 ``` Java
 // 根据助记词生成种子
 byte[] seed = MnemonicUtils.generateSeed(mnemonic, "");
+System.out.println("seed = " + Numeric.toHexString(seed));
 ```
 
 种子： 0x7eaedb7137ef3c3b9da8c2bd976d639455133ef76be73fda9c8342c922c98ca910fe195a5db88c43fa526b3504569f6aa7476d738a6e11f8feb48aa03ae0eac0<br>
@@ -63,6 +65,13 @@ ExtendedPrivateKey rootKey = ExtendedPrivateKey.fromSeed(seed, network);
 ExtendedPrivateKey childPrivateKey = rootKey.derive(addressIndex, AddressIndex.DERIVATION);
 // 4. get key pair
 byte[] privateKeyBytes = childPrivateKey.getKey();
+```
+
+如果是ETH钱包开发的话导入了web3j的库 ，可使用ECKeyPair 生成私钥和公钥。<br>
+ETH、EOS等账户体系会有所不同，生成私钥和公钥有所区别<br>
+``` Java
+// 生成私钥和公钥
+ECKeyPair keyPair = ECKeyPair.create(privateKeyBytes);
 ```
 
 ## 说明

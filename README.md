@@ -1,6 +1,10 @@
 # mnemonic-sdk
 Mnemonic bip39 bip32 bip44 
 
+支持 BIP39 助记词
+支持 BIP32 子私钥
+支持 BIP44 多币种管理
+
 # Install
 ``` 
 Gradle：
@@ -86,4 +90,6 @@ m / purpose' / coin_type' / account' / change / address_index
 //eth一般是 m/44'/60'/0'/0
 ``` 
 
-如果需要测试助记词, 和校验助记词生成的地址, 那么可以访问这个网站: https://iancoleman.io/bip39/
+如果需要测试助记词, 和校验助记词生成的地址, 那么可以访问这个网站: https://iancoleman.io/bip39/<br>
+<br>
+[Bip44 注册币种列表](https://github.com/satoshilabs/slips/blob/master/slip-0044.md)
